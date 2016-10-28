@@ -1,0 +1,23 @@
+syntax = "proto2";
+option java_package = "protoswagger.protobuf";
+option java_outer_classname = "ProtobufFoo";
+
+enum Status {
+  A = 1;
+  B = 2;
+  C = 3;
+}
+
+message Data {
+  optional Status status = 1;
+}
+
+message Request {
+  optional int32 a = 1;
+  optional string b = 2;
+  optional Data c = 3;
+}
+
+message Response {
+  map<string,string> params = 1;
+}

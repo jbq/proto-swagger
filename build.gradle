@@ -1,0 +1,71 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+apply plugin: 'spring-boot'
+
+buildscript {
+  repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+  }
+
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+    classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.7'
+  }
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+  mavenLocal()
+}
+
+dependencies {
+  compile 'org.apache.commons:commons-lang3:3.4'
+  // Need proto 3 lib to process proto 2 map type
+  compile group: 'com.google.protobuf', name: 'protobuf-java', version: "3.0.0-beta-3"
+
+  // Spring
+  compile("org.springframework.boot:spring-boot-starter-web:1.3.3.RELEASE") {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+  }
+  compile "org.springframework.boot:spring-boot-starter-jetty:1.3.3.RELEASE"
+  compile "org.springframework.boot:spring-boot-starter-thymeleaf:1.3.3.RELEASE"
+
+  // Swagger
+  compile "io.springfox:springfox-swagger-ui:2.6.0"
+  compile "io.springfox:springfox-swagger2:2.6.0"
+  compile "io.springfox:springfox-spi:2.6.0"
+
+  // Other libs
+  compile group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.2'
+  compile group: 'com.hubspot.jackson', name: 'jackson-datatype-protobuf', version: '0.9.3'
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.4'
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.4'
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.7.4'
+}
+
+apply plugin: 'com.google.protobuf'
+
+protobuf {
+  protoc {
+    artifact = "com.google.protobuf:protoc:3.0.0-beta-3"
+  }
+
+  generatedFilesBaseDir = new File("$projectDir", "gen-src")
+}
+
+idea {
+  module {
+    sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+  }
+}
