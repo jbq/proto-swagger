@@ -1,0 +1,3 @@
+include "jackson-datatype-protobuf"
+
+project(":jackson-datatype-protobuf").projectDir = file("../jackson-datatype-protobuf")

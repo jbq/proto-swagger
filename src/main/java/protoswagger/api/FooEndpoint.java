@@ -26,4 +26,10 @@ public class FooEndpoint {
             @RequestBody @ApiParam(value = "Foo request") final ProtobufFoo.Request scanReq) {
         return ProtobufFoo.Response.getDefaultInstance();
     }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "Return a request", notes = "Return a foo response.", response = ProtobufFoo.Request.class)
+    public ProtobufFoo.Request getRequest() {
+        return ProtobufFoo.Request.getDefaultInstance();
+    }
 }
